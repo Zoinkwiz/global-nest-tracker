@@ -130,7 +130,8 @@ public class GlobalNestTrackerPanel extends PluginPanel
 	private void initializeComponents()
 	{
 		// Status label
-		statusLabel = new JLabel("Loading data...");
+		statusLabel = JLabelUtil.makeJLabel("Loading data...");
+		statusLabel.putClientProperty("html.disable", Boolean.TRUE);
 
 		// Filter controls
 		String[] filterOptions = { "All", "Unknown", "Transformed", "Not Transformed" };
@@ -145,7 +146,7 @@ public class GlobalNestTrackerPanel extends PluginPanel
 		// Details panel components
 		detailsTextPane = new JTextPane();
 		detailsTextPane.setEditable(false);
-		itemIconLabel = new JLabel();
+		itemIconLabel = JLabelUtil.makeJLabel();
 		itemIconLabel.setPreferredSize(new Dimension(36, 36));
 
 		// Item list and model
@@ -169,7 +170,7 @@ public class GlobalNestTrackerPanel extends PluginPanel
 		randomItemsButton = new JButton("Get 28 Random Unknown Items");
 		randomItemsButton.addActionListener(e -> onGetRandomItems());
 
-		paginationInfoLabel = new JLabel();
+		paginationInfoLabel = JLabelUtil.makeJLabel();
 	}
 
 	/**
@@ -184,12 +185,12 @@ public class GlobalNestTrackerPanel extends PluginPanel
 
 		// Filter panel
 		JPanel filterPanel = new JPanel(new BorderLayout());
-		filterPanel.add(new JLabel("Filter: "), BorderLayout.WEST);
+		filterPanel.add(JLabelUtil.makeJLabel("Filter: "), BorderLayout.WEST);
 		filterPanel.add(filterComboBox, BorderLayout.CENTER);
 
 		// Search panel
 		JPanel searchPanel = new JPanel(new BorderLayout());
-		searchPanel.add(new JLabel("Search Item ID: "), BorderLayout.WEST);
+		searchPanel.add(JLabelUtil.makeJLabel("Search Item ID: "), BorderLayout.WEST);
 		searchPanel.add(searchField, BorderLayout.CENTER);
 		searchPanel.add(searchButton, BorderLayout.EAST);
 

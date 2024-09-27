@@ -63,7 +63,6 @@ public enum Icon
 
 	/**
 	 * Return this icon.
-	 * <br>
 	 * The {@link UnaryOperator} is applied to the {@link BufferedImage}. The {@link ImageIcon}
 	 * is then created using that modified image.
 	 *
