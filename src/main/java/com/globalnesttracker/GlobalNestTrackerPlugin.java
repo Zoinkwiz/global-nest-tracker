@@ -37,8 +37,8 @@ import net.runelite.api.Client;
 import net.runelite.api.GameState;
 import net.runelite.api.events.ChatMessage;
 import net.runelite.api.events.GameStateChanged;
+import net.runelite.api.widgets.ComponentID;
 import net.runelite.api.widgets.Widget;
-import net.runelite.api.widgets.WidgetInfo;
 import net.runelite.client.callback.ClientThread;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
@@ -125,7 +125,7 @@ public class GlobalNestTrackerPlugin extends Plugin
 				hasPlacedItemThisLogin = true;
 				clientThread.invokeLater(() -> {
 					// Check widget
-					Widget widget = client.getWidget(WidgetInfo.DIALOG_SPRITE_SPRITE);
+					Widget widget = client.getWidget(ComponentID.DIALOG_SPRITE_SPRITE);
 					if (widget == null) return;
 					int itemID = widget.getItemId();
 					if (itemID <= 0) return;
@@ -142,7 +142,7 @@ public class GlobalNestTrackerPlugin extends Plugin
 			{
 				clientThread.invokeLater(() -> {
 					// Check widget
-					Widget widget = client.getWidget(WidgetInfo.DIALOG_SPRITE_SPRITE);
+					Widget widget = client.getWidget(ComponentID.DIALOG_SPRITE_SPRITE);
 					if (widget == null) return;
 					int itemID = widget.getItemId();
 					if (itemID <= 0) return;
