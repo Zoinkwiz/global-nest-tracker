@@ -28,7 +28,6 @@ import com.globalnesttracker.data.NestItemData;
 import com.globalnesttracker.networking.NestCrowdsourcingManager;
 import com.globalnesttracker.panel.GlobalNestTrackerPanel;
 import com.globalnesttracker.tools.Icon;
-import com.google.inject.Provides;
 import java.awt.image.BufferedImage;
 import javax.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
@@ -40,9 +39,7 @@ import net.runelite.api.events.GameStateChanged;
 import net.runelite.api.widgets.ComponentID;
 import net.runelite.api.widgets.Widget;
 import net.runelite.client.callback.ClientThread;
-import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
-import net.runelite.client.events.RuneScapeProfileChanged;
 import net.runelite.client.game.ItemManager;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
@@ -57,9 +54,6 @@ public class GlobalNestTrackerPlugin extends Plugin
 {
 	@Inject
 	private Client client;
-
-	@Inject
-	private GlobalNestTrackerConfig config;
 
 	@Inject
 	ItemManager itemManager;
@@ -178,11 +172,5 @@ public class GlobalNestTrackerPlugin extends Plugin
 		{
 			hasPlacedItemThisLogin = false;
 		}
-	}
-
-	@Provides
-	GlobalNestTrackerConfig provideConfig(ConfigManager configManager)
-	{
-		return configManager.getConfig(GlobalNestTrackerConfig.class);
 	}
 }
