@@ -49,9 +49,14 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Style;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 import net.runelite.client.callback.ClientThread;
 import net.runelite.client.game.ItemManager;
 import net.runelite.client.ui.PluginPanel;
@@ -80,7 +85,7 @@ public class GlobalNestTrackerPanel extends PluginPanel
 	private JButton nextButton;
 	private JButton randomItemsButton;
 	private JPanel detailsPanel;
-	private JLabel detailsLabel;
+	private JTextPane detailsTextPane;
 	private JLabel itemIconLabel;
 	private JLabel paginationInfoLabel;
 
@@ -138,7 +143,8 @@ public class GlobalNestTrackerPanel extends PluginPanel
 		searchButton.addActionListener(e -> onSearch());
 
 		// Details panel components
-		detailsLabel = new JLabel();
+		detailsTextPane = new JTextPane();
+		detailsTextPane.setEditable(false);
 		itemIconLabel = new JLabel();
 		itemIconLabel.setPreferredSize(new Dimension(36, 36));
 
@@ -215,7 +221,7 @@ public class GlobalNestTrackerPanel extends PluginPanel
 
 		JPanel detailsContent = new JPanel(new BorderLayout(5, 0));
 		detailsContent.add(itemIconLabel, BorderLayout.WEST);
-		detailsContent.add(detailsLabel, BorderLayout.CENTER);
+		detailsContent.add(detailsTextPane, BorderLayout.CENTER);
 
 		detailsPanel.add(detailsContent, BorderLayout.CENTER);
 
@@ -379,14 +385,34 @@ public class GlobalNestTrackerPanel extends PluginPanel
 			itemName = "Unknown Item";
 		}
 
-		// Build the details text
+		// Build the transformed text
 		String transformedText = getTransformedText(itemData.getTransformedState());
 
-		String detailsText = "<html><b>Name:</b> " + itemName
-			+ "<br><b>Item ID:</b> " + itemData.getItemId()
-			+ "<br><b>Status:</b> " + transformedText + "</html>";
+		try
+		{
+			StyledDocument doc = detailsTextPane.getStyledDocument();
+			doc.remove(0, doc.getLength());
 
-		detailsLabel.setText(detailsText);
+			Style boldStyle = detailsTextPane.addStyle("Bold", null);
+			StyleConstants.setBold(boldStyle, true);
+
+			Style plainStyle = detailsTextPane.addStyle("Plain", null);
+			StyleConstants.setBold(plainStyle, false);
+
+			doc.insertString(doc.getLength(), "Name: ", boldStyle);
+			doc.insertString(doc.getLength(), itemName + "\n", plainStyle);
+
+			doc.insertString(doc.getLength(), "Item ID: ", boldStyle);
+			doc.insertString(doc.getLength(), itemData.getItemId() + "\n", plainStyle);
+
+			doc.insertString(doc.getLength(), "Status: ", boldStyle);
+			doc.insertString(doc.getLength(), transformedText, plainStyle);
+
+		}
+		catch (BadLocationException e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -395,7 +421,7 @@ public class GlobalNestTrackerPanel extends PluginPanel
 	private void resetDetailsPanel()
 	{
 		itemIconLabel.setIcon(null);
-		detailsLabel.setText("Click on an item to get details!");
+		detailsTextPane.setText("Click on an item to get details!");
 	}
 
 	/**
@@ -516,7 +542,7 @@ public class GlobalNestTrackerPanel extends PluginPanel
 		Graphics2D g = combinedImage.createGraphics();
 		g.drawImage(baseIcon.getImage(), 0, 0, null);
 
-		// Get symbol and color based on transformed state
+		// Get symbol and color based on details state
 		Map.Entry<String, Color> symbolAndColor = getSymbolAndColor(transformedState);
 		String symbol = symbolAndColor.getKey();
 		Color color = symbolAndColor.getValue();
