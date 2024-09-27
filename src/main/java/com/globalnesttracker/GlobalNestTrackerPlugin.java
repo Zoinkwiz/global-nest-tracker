@@ -81,9 +81,6 @@ public class GlobalNestTrackerPlugin extends Plugin
 
 	private int lastItemIdPlaced = -1;
 
-	private boolean profileChanged;
-
-
 	@Override
 	protected void startUp() throws Exception
 	{
@@ -107,12 +104,6 @@ public class GlobalNestTrackerPlugin extends Plugin
 	protected void shutDown() throws Exception
 	{
 		clientToolbar.removeNavigation(navButton);
-	}
-
-	private void getRecommendedItems()
-	{
-		nestCrowdsourcingManager.makeGetRequest(globalNestTrackerPanel);
-		// Call server for 28 random items not yet used on the nest
 	}
 
 	@Subscribe
@@ -179,25 +170,12 @@ public class GlobalNestTrackerPlugin extends Plugin
 	}
 
 	@Subscribe
-	private void onRuneScapeProfileChanged(RuneScapeProfileChanged ev)
-	{
-		profileChanged = true;
-	}
-
-	@Subscribe
 	public void onGameStateChanged(final GameStateChanged event)
 	{
 		final GameState state = event.getGameState();
 
-		if (state == GameState.LOGIN_SCREEN)
+		if (state == GameState.HOPPING || state == GameState.LOGIN_SCREEN)
 		{
-			profileChanged = true;
-			hasPlacedItemThisLogin = false;
-		}
-
-		if (state == GameState.LOGGED_IN && profileChanged)
-		{
-			profileChanged = false;
 			hasPlacedItemThisLogin = false;
 		}
 	}
