@@ -82,7 +82,7 @@ public class NestCrowdsourcingManager
 	 *
 	 * @param nestPanel The panel to update with the data.
 	 */
-	public void makeGetRequest(GlobalNestTrackerPanel nestPanel)
+	public void loadItems(GlobalNestTrackerPanel nestPanel)
 	{
 		Request request = new Request.Builder()
 			.url(API_BASE_URL)
@@ -97,7 +97,7 @@ public class NestCrowdsourcingManager
 	 * @param nestPanel The panel to update with the data.
 	 * @param itemId    The item ID to search for.
 	 */
-	public void makeGetRequestById(GlobalNestTrackerPanel nestPanel, int itemId)
+	public void loadItemsById(GlobalNestTrackerPanel nestPanel, int itemId)
 	{
 		HttpUrl url = HttpUrl.parse(API_BASE_URL).newBuilder()
 			.addQueryParameter("itemId", String.valueOf(itemId))
@@ -118,7 +118,7 @@ public class NestCrowdsourcingManager
 	 * @param page      The page number for pagination.
 	 * @param size      The number of items per page.
 	 */
-	public void makeGetRequestWithFilter(GlobalNestTrackerPanel nestPanel, String filter, int page, int size)
+	public void loadItemsWithFilter(GlobalNestTrackerPanel nestPanel, String filter, int page, int size)
 	{
 		HttpUrl.Builder urlBuilder = HttpUrl.parse(API_BASE_URL).newBuilder()
 			.addQueryParameter("page", String.valueOf(page))
@@ -145,7 +145,7 @@ public class NestCrowdsourcingManager
 	 * @param nestPanel The panel to update with the data.
 	 * @param count     The number of random items to fetch.
 	 */
-	public void getRandomUnknownItems(GlobalNestTrackerPanel nestPanel, int count)
+	public void loadRandomUnknownItems(GlobalNestTrackerPanel nestPanel, int count)
 	{
 		HttpUrl url = HttpUrl.parse(API_BASE_URL + "random").newBuilder()
 			.addQueryParameter("count", String.valueOf(count))

@@ -91,7 +91,7 @@ public class GlobalNestTrackerPlugin extends Plugin
 
 		clientToolbar.addNavigation(navButton);
 
-		nestCrowdsourcingManager.makeGetRequest(globalNestTrackerPanel);
+		nestCrowdsourcingManager.loadItems(globalNestTrackerPanel);
 	}
 
 	@Override

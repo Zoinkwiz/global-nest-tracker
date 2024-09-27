@@ -131,7 +131,6 @@ public class GlobalNestTrackerPanel extends PluginPanel
 	{
 		// Status label
 		statusLabel = JLabelUtil.makeJLabel("Loading data...");
-		statusLabel.putClientProperty("html.disable", Boolean.TRUE);
 
 		// Filter controls
 		String[] filterOptions = { "All", "Unknown", "Transformed", "Not Transformed" };
@@ -276,7 +275,7 @@ public class GlobalNestTrackerPanel extends PluginPanel
 		String selectedFilter = (String) filterComboBox.getSelectedItem();
 		statusLabel.setText("Loading data...");
 		currentPage = 0; // Reset to the first page
-		nestCrowdsourcingManager.makeGetRequestWithFilter(this, selectedFilter, currentPage, pageSize);
+		nestCrowdsourcingManager.loadItemsWithFilter(this, selectedFilter, currentPage, pageSize);
 	}
 
 	/**
@@ -291,7 +290,7 @@ public class GlobalNestTrackerPanel extends PluginPanel
 			{
 				int itemId = Integer.parseInt(input);
 				statusLabel.setText("Searching for item ID: " + itemId);
-				nestCrowdsourcingManager.makeGetRequestById(this, itemId);
+				nestCrowdsourcingManager.loadItemsById(this, itemId);
 			}
 			catch (NumberFormatException ex)
 			{
@@ -331,7 +330,7 @@ public class GlobalNestTrackerPanel extends PluginPanel
 			currentPage--;
 			statusLabel.setText("Loading data...");
 			String selectedFilter = (String) filterComboBox.getSelectedItem();
-			nestCrowdsourcingManager.makeGetRequestWithFilter(this, selectedFilter, currentPage, pageSize);
+			nestCrowdsourcingManager.loadItemsWithFilter(this, selectedFilter, currentPage, pageSize);
 		}
 	}
 
@@ -343,7 +342,7 @@ public class GlobalNestTrackerPanel extends PluginPanel
 		currentPage++;
 		statusLabel.setText("Loading data...");
 		String selectedFilter = (String) filterComboBox.getSelectedItem();
-		nestCrowdsourcingManager.makeGetRequestWithFilter(this, selectedFilter, currentPage, pageSize);
+		nestCrowdsourcingManager.loadItemsWithFilter(this, selectedFilter, currentPage, pageSize);
 	}
 
 	/**
@@ -352,7 +351,7 @@ public class GlobalNestTrackerPanel extends PluginPanel
 	private void onGetRandomItems()
 	{
 		statusLabel.setText("Loading random items...");
-		nestCrowdsourcingManager.getRandomUnknownItems(this, pageSize);
+		nestCrowdsourcingManager.loadRandomUnknownItems(this, pageSize);
 	}
 
 	/**
