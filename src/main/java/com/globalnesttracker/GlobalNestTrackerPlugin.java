@@ -135,6 +135,20 @@ public class GlobalNestTrackerPlugin extends Plugin
 				return;
 			}
 
+			if (chatMessage.getMessage().equals("That item is quite valuable. It's probably not a good idea to put it in a random nest."))
+			{
+				Widget widget = client.getWidget(ComponentID.DIALOG_SPRITE_SPRITE);
+				if (widget == null) return;
+				int itemID = widget.getItemId();
+				if (itemID <= 0) return;
+
+				NestItemData data = new NestItemData(itemID, false);
+				nestCrowdsourcingManager.submitToAPI(data);
+
+				hasPlacedItemThisLogin = false;
+				lastItemIdPlaced = -1;
+			}
+
 			if (hasPlacedItemThisLogin) return;
 
 			if (chatMessage.getMessage().equals("You retrieve your item from the nest.") ||
